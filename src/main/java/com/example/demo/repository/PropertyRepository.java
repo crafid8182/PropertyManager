@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
+
 
 public interface PropertyRepository extends JpaRepository<Property, Integer> {
 
@@ -19,4 +21,13 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
     // 3) Find properties with the maximum price
     @Query("SELECT p FROM Property p WHERE p.price = (SELECT MAX(p2.price) FROM Property p2)")
     List<Property> findMaxPricedProperties();
+
+    @Query("SELECT new map(p.id as propertyId, p.address as address, o.name as ownerName) " +
+            "FROM Property p JOIN p.owner o")
+    List<Map<String, Object>> getPropertyAndOwnerDetails();
+
+    List<Property> findByOwnerId(Integer ownerId);
+
+
+
 }

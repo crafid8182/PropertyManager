@@ -18,6 +18,7 @@ public class PropertyController {
     // Create a new property
     @PostMapping
     public Property createProperty(@RequestBody Property property) {
+        System.out.println("Owner before save: " + property.getOwner());
         return propertyRepository.save(property);
     }
 
